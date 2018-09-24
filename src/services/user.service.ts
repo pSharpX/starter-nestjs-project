@@ -1,38 +1,39 @@
 import { Injectable } from '@nestjs/common';
-import {ILabelService} from './label.generic.service';
-import {Label} from '../models/label';
+import {IUserService} from './user.generic.service';
+import {User} from '../models/user';
 import {Repository} from 'typeorm';
 import {InjectRepository} from '@nestjs/typeorm';
 
 @Injectable()
-export class LabelService implements ILabelService{
-    private readonly repository: Repository<Label>;
-    constructor(@InjectRepository(Label)
-                    repository: Repository<Label>){
+export class UserService implements IUserService{
+    private readonly repository: Repository<User>;
+    constructor(@InjectRepository(User)
+                    repository: Repository<User>){
         this.repository = repository;
     }
-    async findByCode(code: string): Promise<Label> {
-        return await this.repository.findOne({Code: code});
+
+    async findByUserName(userName: string) {
+        return await this.repository.findOne({userName: userName});
     }
 
-    async findAll(): Promise<Label[]> {
+    async findAll(): Promise<User[]> {
         return await this.repository.find();
     }
 
-    async find(id: number): Promise<Label> {
+    async find(id: number): Promise<User> {
         return undefined;
     }
 
-    async where(entity: Label): Promise<Label> {
+    async where(entity: User): Promise<User> {
         return await this.repository.findOne(entity);
     }
 
-    async insert(entity: Label): Promise<Label> {
+    async insert(entity: User): Promise<User> {
         await this.repository.save(entity);
         return entity;
     }
 
-    async update(id: number, entity: Label): Promise<Label> {
+    async update(id: number, entity: User): Promise<User> {
         try {
             await this.repository.update(id, entity);
             return entity;
@@ -40,7 +41,7 @@ export class LabelService implements ILabelService{
         }
     }
 
-    async delete(id: number): Promise<Label> {
+    async delete(id: number): Promise<User> {
         try {
             const toDetele = this.repository.findOne(id);
             await this.repository.delete(id);
