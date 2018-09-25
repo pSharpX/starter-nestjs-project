@@ -19,11 +19,11 @@ export class CategoryRepository implements ICategoryRepository{
     }
 
     async find(id: number): Promise<Category> {
-        return this.manager.findOne(Category, id);
+        return await this.manager.findOne(Category, id);
     }
 
     async where(entity: Category): Promise<Category> {
-        return this.manager.findOne(Category, entity);
+        return await this.manager.findOne(Category, entity);
     }
 
     async insert(entity: Category): Promise<Category> {

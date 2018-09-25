@@ -1,4 +1,6 @@
-import {Body, Controller, Get, Param, Post, ValidationPipe} from '@nestjs/common';
+import {
+    Body, Controller, FileInterceptor, Get, Param, Post, UploadedFile, UseInterceptors,
+} from '@nestjs/common';
 import {IItemService} from '../../services/item.generic.service';
 import {Inject} from '@nestjs/common/utils/decorators/inject.decorator';
 import {Item} from '../../models/item';
@@ -22,7 +24,11 @@ export class ItemController {
     }
 
     @Post()
-    async create(@Body(new ValidationPipe({transform: true})) request: CreateItemDto): Promise<Item> {
+    @UseInterceptors(FileInterceptor('image'))
+    async create(
+        @UploadedFile() file,
+        @Body() request: CreateItemDto): Promise<Item> {
+        // request.image = file;
         return await this.service.insert(request.ToLabel());
     }
 }

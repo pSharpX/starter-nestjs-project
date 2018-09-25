@@ -1,6 +1,7 @@
 import {BaseEntity} from './base-entity';
 import {Column, Entity, OneToMany} from 'typeorm';
 import {Cart} from './cart';
+import {UserCredential} from './user-credential';
 
 @Entity('users')
 export class User extends BaseEntity{
@@ -16,4 +17,6 @@ export class User extends BaseEntity{
     birthDate: Date;
     @OneToMany(type => Cart, cart => cart.user)
     carts: Cart[];
+    @OneToMany(type => UserCredential, credentials => credentials.user)
+    credentials: UserCredential[];
 }

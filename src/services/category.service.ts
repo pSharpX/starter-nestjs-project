@@ -20,6 +20,10 @@ export class CategoryService implements ICategoryService{
         return await this.repository.findOne(id);
     }
 
+    async findByName(name: string): Promise<Category> {
+        return undefined;
+    }
+
     async where(entity: Category): Promise<Category> {
         return await this.repository.findOne(entity);
     }
