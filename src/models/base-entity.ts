@@ -5,6 +5,6 @@ import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 export abstract class BaseEntity {
     @PrimaryGeneratedColumn()
     Id: number;
-    @Column()
+    @Column({default: false})
     Inactive: boolean;
 }

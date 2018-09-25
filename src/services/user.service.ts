@@ -12,8 +12,8 @@ export class UserService implements IUserService{
         this.repository = repository;
     }
 
-    async findByUserName(userName: string) {
-        return await this.repository.findOne({userName: userName});
+    async findByUserName(userName: string): Promise<User> {
+        return await this.repository.findOne({userName});
     }
 
     async findAll(): Promise<User[]> {

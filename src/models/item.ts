@@ -8,7 +8,7 @@ export class Item extends BaseEntity{
     name: string;
     @Column({length: 500})
     description: string;
-    @Column()
+    @Column({type: 'decimal'})
     price: number;
     @Column({ type: 'blob', nullable: true})
     image: any;

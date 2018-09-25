@@ -12,6 +12,6 @@ export class CartDetail extends BaseEntity{
     item: Item;
     @Column()
     quantity: number;
-    @Column()
+    @Column({type: 'decimal'})
     unitPrice: number;
 }

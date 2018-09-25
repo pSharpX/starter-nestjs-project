@@ -13,17 +13,23 @@ import {CartDetail} from './models/cart-detail';
 import {User} from './models/user';
 import { UserService } from './services/user.service';
 import { UserController } from './controllers/user/user.controller';
+import { ItemController } from './controllers/item/item.controller';
+import { ItemService } from './services/item.service';
+import { CategoryService } from './services/category.service';
+import { CategoryController } from './controllers/category/category.controller';
 
 @Module({
     imports: [
         TypeOrmModule.forRoot(),
         TypeOrmModule.forFeature([Label, Category, Item, Cart, CartDetail, User]),
     ],
-    controllers: [AppController, CatsController, LabelController, UserController],
+    controllers: [AppController, CatsController, LabelController, UserController, ItemController, CategoryController],
     providers: [
         AppService,
         {provide: 'LabelService', useClass: LabelService},
         {provide: 'UserService', useClass: UserService},
+        {provide: 'CategoryService', useClass: CategoryService},
+        {provide: 'ItemService', useClass: ItemService},
     ],
 })
 export class AppModule {}

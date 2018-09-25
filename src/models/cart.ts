@@ -17,6 +17,6 @@ export class Cart extends BaseEntity{
     user: User;
     @OneToMany(type => CartDetail, details => details.cart)
     details: CartDetail;
-    @Column()
+    @Column({type: 'decimal'})
     total: number;
 }
