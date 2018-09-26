@@ -7,7 +7,7 @@ import {Cart} from './cart';
 export class CartDetail extends BaseEntity{
     @ManyToOne(type => Cart, cart => cart.details)
     cart: Cart;
-    @ManyToOne(type => Item)
+    @ManyToOne(type => Item, {eager: true})
     @JoinColumn()
     item: Item;
     @Column()

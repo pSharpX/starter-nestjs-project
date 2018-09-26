@@ -16,7 +16,8 @@ export class User extends BaseEntity{
     @Column()
     birthDate: Date;
     @OneToMany(type => Cart, cart => cart.user)
-    carts: Cart[];
+    carts: Promise<Cart[]>;
+    // @OneToMany(type => UserCredential, credentials => credentials.user, {eager: true})
     @OneToMany(type => UserCredential, credentials => credentials.user)
     credentials: UserCredential[];
 }

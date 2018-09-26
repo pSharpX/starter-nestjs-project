@@ -1,6 +1,10 @@
 import {UserCredential} from '../models/user-credential';
-import {IsEmail, IsNotEmpty, IsBoolean, MinLength, MaxLength, IsOptional} from 'class-validator';
+import {
+    IsEmail, IsNotEmpty, IsBoolean, MinLength, MaxLength, IsOptional, IsDate, IsDateString,
+    IsAlpha
+} from 'class-validator';
 import {IsUserAlreadyExist} from './validators/decorators/is-user-already-exist-constraint.decorator';
+import {User} from '../models/user';
 
 export class SignUpDto{
     @MaxLength(50)
@@ -19,6 +23,15 @@ export class SignUpDto{
     @IsBoolean()
     @IsOptional()
     readonly rememberMe: boolean;
+    @IsNotEmpty()
+    readonly firstName: string;
+    @IsNotEmpty()
+    readonly lastName: string;
+    @IsNotEmpty()
+    @IsAlpha()
+    readonly nationality: string;
+    @IsDateString()
+    readonly birthDate: Date;
     public ToUserCredential(): UserCredential{
         const credential = new UserCredential();
         credential.username = this.username;
@@ -26,5 +39,15 @@ export class SignUpDto{
         credential.password = this.password;
         credential.rememberMe = this.rememberMe;
         return credential;
+    }
+
+    public ToUser(): User{
+        const user = new User();
+        user.userName = this.username;
+        user.firstName = this.firstName;
+        user.lastName = this.lastName;
+        user.nationality = this.nationality;
+        user.birthDate = this.birthDate;
+        return user;
     }
 }

@@ -15,7 +15,7 @@ export class CreateUserDto{
     @IsDate()
     readonly birthDate: Date;
 
-    public ToLabel(): User{
+    public ToUser(): User{
         const user = new User();
         user.userName = this.userName;
         user.firstName = this.firstName;

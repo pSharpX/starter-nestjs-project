@@ -16,7 +16,7 @@ export class Cart extends BaseEntity{
     @ManyToOne(type => User, user => user.carts)
     user: User;
     @OneToMany(type => CartDetail, details => details.cart)
-    details: CartDetail;
+    details: Promise<CartDetail[]>;
     @Column({type: 'decimal'})
     total: number;
 }

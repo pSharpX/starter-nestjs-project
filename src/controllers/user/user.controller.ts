@@ -21,7 +21,7 @@ export class UserController {
     }
 
     @Post()
-    async create(@Body(new ValidationPipe({transform: true})) request: CreateUserDto): Promise<User> {
-        return await this.service.insert(request.ToLabel());
+    async create(@Body() request: CreateUserDto): Promise<User> {
+        return await this.service.insert(request.ToUser());
     }
 }

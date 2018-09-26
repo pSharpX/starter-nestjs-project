@@ -22,6 +22,7 @@ import { AuthService } from './services/auth.service';
 import {CategoryRepository} from './repositories/category.repository';
 import {UserCredentialRepository} from './repositories/user-credential.repository';
 import {IsUserAlreadyExistConstraint} from './dto/validators/is-user-already-exist-constraint';
+import { AuthServiceFacade } from './services/facades/auth.service.facade';
 
 @Module({
     imports: [
@@ -41,6 +42,7 @@ import {IsUserAlreadyExistConstraint} from './dto/validators/is-user-already-exi
         {provide: 'CategoryService', useClass: CategoryService},
         {provide: 'ItemService', useClass: ItemService},
         {provide: 'AuthService', useClass: AuthService},
+        {provide: 'AuthServiceFacade', useClass: AuthServiceFacade},
         IsUserAlreadyExistConstraint,
     ],
 })
