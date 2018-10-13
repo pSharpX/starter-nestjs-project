@@ -1,52 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import {Inject, Injectable} from '@nestjs/common';
 import {ICategoryService} from './category.generic.service';
 import {Category} from '../models/category';
-import {Repository} from 'typeorm';
-import {InjectRepository} from '@nestjs/typeorm';
+import {ICategoryRepository} from '../repositories/category.generic.repository';
 
 @Injectable()
 export class CategoryService implements ICategoryService{
-    private readonly repository: Repository<Category>;
-    constructor(@InjectRepository(Category)
-                    repository: Repository<Category>){
+    private readonly repository: ICategoryRepository;
+    constructor(@Inject('CategoryRepository')
+                    repository: ICategoryRepository){
         this.repository = repository;
     }
 
     async findAll(): Promise<Category[]> {
-        return await this.repository.find();
+        return await this.repository.findAll();
     }
 
     async find(id: number): Promise<Category> {
-        return await this.repository.findOne(id);
+        return await this.repository.find(id);
     }
 
     async findByName(name: string): Promise<Category> {
-        return undefined;
+        return await this.repository.findByName(name);
     }
 
     async where(entity: Category): Promise<Category> {
-        return await this.repository.findOne(entity);
+        return await this.repository.where(entity);
     }
 
     async insert(entity: Category): Promise<Category> {
-        await this.repository.save(entity);
-        return entity;
+        return await this.repository.insert(entity);
     }
 
     async update(id: number, entity: Category): Promise<Category> {
-        try {
-            await this.repository.update(id, entity);
-            return entity;
-        }catch (e){
-        }
+        return await this.repository.update(id, entity);
     }
 
     async delete(id: number): Promise<Category> {
-        try {
-            const toDetele = this.repository.findOne(id);
-            await this.repository.delete(id);
-            return toDetele;
-        }catch (e){
-        }
+        return await this.repository.delete(id);
     }
 }

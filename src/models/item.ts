@@ -12,6 +12,8 @@ export class Item extends BaseEntity{
     price: number;
     @Column({ type: 'blob', nullable: true})
     image: Blob;
+    @Column({length: 500, nullable: true})
+    imageUrl: string;
     @ManyToOne(type => Category, category => category.items, {eager: true})
     category: Category;
 }

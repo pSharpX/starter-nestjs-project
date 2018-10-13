@@ -1,4 +1,4 @@
-import {Module, MulterModule} from '@nestjs/common';
+import {MiddlewareConsumer, Module, MulterModule, NestModule, HttpModule} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatsController } from './cats/cats.controller';
@@ -23,9 +23,12 @@ import {CategoryRepository} from './repositories/category.repository';
 import {UserCredentialRepository} from './repositories/user-credential.repository';
 import {IsUserAlreadyExistConstraint} from './dto/validators/is-user-already-exist-constraint';
 import { AuthServiceFacade } from './services/facades/auth.service.facade';
+import {CorsMiddleware} from './middlewares/cors/cors.middleware';
+import { ConfigService } from './services/config.service';
 
 @Module({
     imports: [
+        HttpModule,
         TypeOrmModule.forRoot(),
         TypeOrmModule.forFeature([Label, Category, Item, Cart, CartDetail, User]),
         MulterModule.register({
@@ -34,6 +37,7 @@ import { AuthServiceFacade } from './services/facades/auth.service.facade';
     ],
     controllers: [AppController, CatsController, LabelController, UserController, ItemController, CategoryController, AuthController],
     providers: [
+        {provide: ConfigService, useValue: new ConfigService(`${process.env.NODE_ENV}.env`)},
         AppService,
         {provide: 'CategoryRepository', useClass: CategoryRepository},
         {provide: 'UserCredentialRepository', useClass: UserCredentialRepository},
@@ -44,6 +48,16 @@ import { AuthServiceFacade } from './services/facades/auth.service.facade';
         {provide: 'AuthService', useClass: AuthService},
         {provide: 'AuthServiceFacade', useClass: AuthServiceFacade},
         IsUserAlreadyExistConstraint,
+        ConfigService,
     ],
 })
-export class AppModule {}
+export class AppModule implements NestModule{
+    configure(consumer: MiddlewareConsumer): void {
+        consumer
+            .apply(CorsMiddleware)
+            .forRoutes('item');
+        //  .forRoutes({ path: 'cats', method: RequestMethod.GET });
+        //  .forRoutes({ path: '*', method: RequestMethod.ALL })
+        //  .forRoutes(CatsController);
+    }
+}

@@ -18,6 +18,11 @@ export class ItemController {
         return await this.service.findAll();
     }
 
+    @Get('/:id')
+    async find(@Param('id') id: number): Promise<Item> {
+        return await this.service.find(id);
+    }
+
     @Get('search/:term')
     async search(@Param('term') term: string): Promise<Item[]> {
         return await this.service.search(term);
@@ -28,7 +33,7 @@ export class ItemController {
     async create(
         @UploadedFile() file,
         @Body() request: CreateItemDto): Promise<Item> {
-        // request.image = file;
-        return await this.service.insert(request.ToLabel());
+        request.image = file;
+        return await this.service.insert(request.ToItem());
     }
 }

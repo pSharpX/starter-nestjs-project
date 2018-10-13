@@ -13,24 +13,25 @@ export class CreateItemDto{
     // @Validate(CustomTextLength, [3, 20], {
     //     message: "Wrong post title"
     // })
+
     // @IsLongerThan("title", {
     //     /* you can also use additional validation options, like "groups" in your custom validation decorators. "each" is not supported */
     //     message: "Text must be longer than the title"
     // })
     readonly description: string;
     readonly price: number;
-    image: Blob;
+    image: any;
     readonly categoryId: number;
 
-    public ToLabel(): Item{
-        const user = new Item();
-        user.name = this.name;
-        user.description = this.description;
-        user.price = this.price;
-        user.image = this.image;
+    public ToItem(): Item{
+        const item = new Item();
+        item.name = this.name;
+        item.description = this.description;
+        item.price = this.price;
+        item.image = this.image;
         const category = new Category();
         category.Id = this.categoryId;
-        user.category = category;
-        return user;
+        item.category = category;
+        return item;
     }
 }
