@@ -1,10 +1,11 @@
 import {
-    Body, Controller, FileInterceptor, Get, Param, Post, UploadedFile, UseInterceptors,
+    Body, Controller, FileInterceptor, Get, Param, Post, Put, Req, UploadedFile, UseInterceptors,
 } from '@nestjs/common';
 import {IItemService} from '../../services/item.generic.service';
 import {Inject} from '@nestjs/common/utils/decorators/inject.decorator';
 import {Item} from '../../models/item';
 import {CreateItemDto} from '../../dto/create-item-dto';
+import {UpdateItemDto} from '../../dto/update-item-dto';
 
 @Controller('item')
 export class ItemController {
@@ -32,8 +33,18 @@ export class ItemController {
     @UseInterceptors(FileInterceptor('image'))
     async create(
         @UploadedFile() file,
-        @Body() request: CreateItemDto): Promise<Item> {
+        @Body() request: CreateItemDto,
+        @Req() req): Promise<Item> {
         request.image = file;
         return await this.service.insert(request.ToItem());
+    }
+
+    @Put()
+    @UseInterceptors(FileInterceptor('image'))
+    async update(
+        @UploadedFile() file,
+        @Body() model: UpdateItemDto){
+        model.image = file;
+        return await this.service.update(model.Id, model.ToItem());
     }
 }

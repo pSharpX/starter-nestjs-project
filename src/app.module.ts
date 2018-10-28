@@ -32,12 +32,12 @@ import { ConfigService } from './services/config.service';
         TypeOrmModule.forRoot(),
         TypeOrmModule.forFeature([Label, Category, Item, Cart, CartDetail, User]),
         MulterModule.register({
-            dest: '/upload',
+            dest: './upload',
         }),
     ],
     controllers: [AppController, CatsController, LabelController, UserController, ItemController, CategoryController, AuthController],
     providers: [
-        {provide: ConfigService, useValue: new ConfigService(`${process.env.NODE_ENV}.env`)},
+        {provide: ConfigService, useValue: new ConfigService(`${process.env.NODE_ENV || 'development'}.env`)},
         AppService,
         {provide: 'CategoryRepository', useClass: CategoryRepository},
         {provide: 'UserCredentialRepository', useClass: UserCredentialRepository},
@@ -48,7 +48,6 @@ import { ConfigService } from './services/config.service';
         {provide: 'AuthService', useClass: AuthService},
         {provide: 'AuthServiceFacade', useClass: AuthServiceFacade},
         IsUserAlreadyExistConstraint,
-        ConfigService,
     ],
 })
 export class AppModule implements NestModule{
