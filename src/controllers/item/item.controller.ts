@@ -2,7 +2,7 @@ import {
     Body, Controller, FileInterceptor, Get, Param, Post, Put, Req, UploadedFile, UseInterceptors,
 } from '@nestjs/common';
 import {IItemService} from '../../services/item.generic.service';
-import {Inject} from '@nestjs/common/utils/decorators/inject.decorator';
+import {Inject} from '@nestjs/common/decorators/core/inject.decorator';
 import {Item} from '../../models/item';
 import {CreateItemDto} from '../../dto/create-item-dto';
 import {UpdateItemDto} from '../../dto/update-item-dto';
