@@ -9,7 +9,8 @@ describe('Label Controller', () => {
     }).compile();
   });
   it('should be defined', () => {
-    const controller: LabelController = module.get<LabelController>(LabelController);
+    const controller: LabelController =
+      module.get<LabelController>(LabelController);
     expect(controller).toBeDefined();
   });
 });

@@ -9,7 +9,8 @@ describe('Item Controller', () => {
     }).compile();
   });
   it('should be defined', () => {
-    const controller: ItemController = module.get<ItemController>(ItemController);
+    const controller: ItemController =
+      module.get<ItemController>(ItemController);
     expect(controller).toBeDefined();
   });
 });

@@ -1,5 +1,3 @@
-import {BaseEntity} from './base-entity';
+import { BaseEntity } from './base-entity';
 
-export class Product extends BaseEntity{
-
-}
+export class Product extends BaseEntity {}

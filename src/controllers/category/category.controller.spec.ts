@@ -9,7 +9,8 @@ describe('Category Controller', () => {
     }).compile();
   });
   it('should be defined', () => {
-    const controller: CategoryController = module.get<CategoryController>(CategoryController);
+    const controller: CategoryController =
+      module.get<CategoryController>(CategoryController);
     expect(controller).toBeDefined();
   });
 });

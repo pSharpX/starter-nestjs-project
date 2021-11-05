@@ -1,3 +1,3 @@
 export class DeleteLabelDto {
-    readonly Id: number;
+  readonly Id: number;
 }

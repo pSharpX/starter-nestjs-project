@@ -9,7 +9,8 @@ describe('Cats Controller', () => {
     }).compile();
   });
   it('should be defined', () => {
-    const controller: CatsController = module.get<CatsController>(CatsController);
+    const controller: CatsController =
+      module.get<CatsController>(CatsController);
     expect(controller).toBeDefined();
   });
 });
