@@ -9,7 +9,8 @@ describe('User Controller', () => {
     }).compile();
   });
   it('should be defined', () => {
-    const controller: UserController = module.get<UserController>(UserController);
+    const controller: UserController =
+      module.get<UserController>(UserController);
     expect(controller).toBeDefined();
   });
 });

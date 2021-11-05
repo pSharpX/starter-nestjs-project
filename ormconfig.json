@@ -1,10 +1,10 @@
 {
   "type": "mysql",
-  "host": "localhost",
+  "host": "192.168.99.14",
   "port": 3306,
-  "username": "root",
-  "password": "",
-  "database": "labeldb",
+  "username": "pgsql_admin",
+  "password": "pgsql_admin123",
+  "database": "shopify_db",
   "entities": ["src/models/**{.ts,.js}"],
   "synchronize": true
 }

@@ -4,13 +4,13 @@ import * as fs from 'fs';
 
 @Injectable()
 export class ConfigService {
-    private readonly envConfig: { [key: string]: string };
+  private readonly envConfig: { [key: string]: string };
 
-    constructor(filePath: string) {
-        this.envConfig = dotenv.parse(fs.readFileSync(filePath));
-    }
+  constructor(filePath: string) {
+    this.envConfig = dotenv.parse(fs.readFileSync(filePath));
+  }
 
-    get(key: string): string {
-        return this.envConfig[key];
-    }
+  get(key: string): string {
+    return this.envConfig[key];
+  }
 }

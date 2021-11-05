@@ -1,17 +1,16 @@
-import {Controller, Get, Post} from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 
 @Controller('cats')
 export class CatsController {
+  constructor() {}
 
-    constructor(){}
+  @Get()
+  findAll() {
+    return 'this actions returns all cats';
+  }
 
-    @Get()
-    findAll(){
-        return 'this actions returns all cats';
-    }
-
-    @Post()
-    create(){
-        return 'this action create a new cat';
-    }
+  @Post()
+  create() {
+    return 'this action create a new cat';
+  }
 }

@@ -1,8 +1,8 @@
-export interface  IGenericRepository<T, ID>{
-    findAll(): Promise<T[]>;
-    find(id: ID): Promise<T>;
-    where(entity: T): Promise<T>;
-    insert(entity: T): Promise<T>;
-    update(id: ID, entity: T): Promise<T>;
-    delete(id: ID): Promise<T>;
+export interface IGenericRepository<T, ID> {
+  findAll(): Promise<T[]>;
+  find(id: ID): Promise<T>;
+  where(entity: T): Promise<T>;
+  insert(entity: T): Promise<T>;
+  update(id: ID, entity: T): Promise<T>;
+  delete(id: ID): Promise<T>;
 }
