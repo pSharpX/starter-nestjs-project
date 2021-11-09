@@ -10,7 +10,7 @@ export class Item extends BaseEntity {
   description: string;
   @Column({ type: 'decimal' })
   price: number;
-  @Column({ type: 'blob', nullable: true })
+  @Column({ type: 'bytea', nullable: true })
   image: any;
   @Column({ length: 500, nullable: true })
   imageUrl: string;

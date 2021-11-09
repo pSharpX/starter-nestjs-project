@@ -1,9 +1,6 @@
 {
   "type": "mysql",
-  "host": "192.168.99.14",
   "port": 3306,
-  "username": "pgsql_admin",
-  "password": "pgsql_admin123",
   "database": "shopify_db",
   "entities": ["src/models/**{.ts,.js}"],
   "synchronize": true

@@ -26,16 +26,29 @@ import { UserCredentialRepository } from './repositories/user-credential.reposit
 import { IsUserAlreadyExistConstraint } from './dto/validators/is-user-already-exist-constraint';
 import { AuthServiceFacade } from './services/facades/auth.service.facade';
 import { CorsMiddleware } from './middlewares/cors/cors.middleware';
-import { ConfigService } from './services/config.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { CatalogModule } from './catalog/catalog.module';
+import { AuthModule } from './auth/auth.module';
+import databaseConfiguration from 'config/database/database.configuration';
+import thirdpartyConfiguration from 'config/thirdparty/thirdparty.configuration';
 
 @Module({
   imports: [
     HttpModule,
-    TypeOrmModule.forRoot(),
+    ConfigModule.forRoot({
+      load: [databaseConfiguration, thirdpartyConfiguration],
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => config.get('database'),
+      inject: [ConfigService],
+    }),
     TypeOrmModule.forFeature([Label, Category, Item, Cart, CartDetail, User]),
     MulterModule.register({
       dest: './upload',
     }),
+    CatalogModule,
+    AuthModule,
   ],
   controllers: [
     AppController,
@@ -47,12 +60,6 @@ import { ConfigService } from './services/config.service';
     AuthController,
   ],
   providers: [
-    {
-      provide: ConfigService,
-      useValue: new ConfigService(
-        `${process.env.NODE_ENV || 'development'}.env`,
-      ),
-    },
     AppService,
     { provide: 'CategoryRepository', useClass: CategoryRepository },
     { provide: 'UserCredentialRepository', useClass: UserCredentialRepository },

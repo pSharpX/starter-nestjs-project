@@ -10,7 +10,7 @@ export class UserCredential extends BaseEntity {
   email: string;
   @Column({ type: 'varchar', length: 50 })
   password: string;
-  @Column({ type: 'tinyint', nullable: true, default: false })
+  @Column({ type: 'boolean', nullable: true, default: false })
   rememberMe: boolean;
   @ManyToOne((type) => User, (user) => user.credentials)
   user: User;
