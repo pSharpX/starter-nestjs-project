@@ -29,6 +29,8 @@ import { CorsMiddleware } from './middlewares/cors/cors.middleware';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CatalogModule } from './catalog/catalog.module';
 import { AuthModule } from './auth/auth.module';
+import { TerminusModule } from '@nestjs/terminus';
+import { HealthController } from './management/health/health.controller';
 import databaseConfiguration from './config/database/database.configuration';
 import thirdpartyConfiguration from './config/thirdparty/thirdparty.configuration';
 
@@ -49,6 +51,7 @@ import thirdpartyConfiguration from './config/thirdparty/thirdparty.configuratio
     }),
     CatalogModule,
     AuthModule,
+    TerminusModule,
   ],
   controllers: [
     AppController,
@@ -58,6 +61,7 @@ import thirdpartyConfiguration from './config/thirdparty/thirdparty.configuratio
     ItemController,
     CategoryController,
     AuthController,
+    HealthController,
   ],
   providers: [
     AppService,
