@@ -61,6 +61,9 @@ typings/
 # ormconfig files
 ormconfig*.json
 
+# build folder
+dist
+
 # next.js build output
 .next
 

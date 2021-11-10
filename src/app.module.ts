@@ -29,8 +29,8 @@ import { CorsMiddleware } from './middlewares/cors/cors.middleware';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CatalogModule } from './catalog/catalog.module';
 import { AuthModule } from './auth/auth.module';
-import databaseConfiguration from 'config/database/database.configuration';
-import thirdpartyConfiguration from 'config/thirdparty/thirdparty.configuration';
+import databaseConfiguration from './config/database/database.configuration';
+import thirdpartyConfiguration from './config/thirdparty/thirdparty.configuration';
 
 @Module({
   imports: [
