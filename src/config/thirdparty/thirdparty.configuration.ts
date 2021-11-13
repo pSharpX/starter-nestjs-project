@@ -10,10 +10,14 @@ function getConfigFileName(param?: string) {
 }
 
 function getProps(param?: string) {
-  if (param) {
-    return dotenv.parse(readFileSync(join(getConfigFileName(param)), 'utf8'));
+  try {
+    if (param) {
+      return dotenv.parse(readFileSync(join(getConfigFileName(param)), 'utf8'));
+    }
+    return dotenv.parse(readFileSync(join(getConfigFileName()), 'utf8'));
+  } catch (err) {
+    return {};
   }
-  return dotenv.parse(readFileSync(join(getConfigFileName()), 'utf8'));
 }
 
 const env = process.env.NODE_ENV || 'development';
