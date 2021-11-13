@@ -5,16 +5,19 @@
   "author": "Christian Rivera",
   "license": "MIT",
   "scripts": {
-    "format": "prettier --write \"**/*.ts\"",
-    "start": "ts-node -r tsconfig-paths/register src/main.ts",
-    "start:dev": "nodemon",
-    "prestart:prod": "rm -rf dist && tsc",
-    "start:prod": "node dist/main.js",
-    "start:hmr": "node dist/server",
+    "prebuild": "rimraf dist",
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "nest start",
+    "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
+    "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "webpack": "webpack --config webpack.config.js"
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
     "@nestjs/axios": "0.0.3",
@@ -38,11 +41,13 @@
     "passport-http-bearer": "^1.0.1",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.2",
     "rxjs": "^7.4.0",
     "typeorm": "^0.2.38",
     "typescript": "^4.4.4"
   },
   "devDependencies": {
+    "@nestjs/cli": "^8.1.4",
     "@nestjs/testing": "^8.1.2",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.0.2",
@@ -73,6 +78,10 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
-    "coverageDirectory": "../coverage"
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
+    "coverageDirectory": "../coverage",
+    "testEnvironment": "node"
   }
 }
