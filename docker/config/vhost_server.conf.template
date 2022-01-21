@@ -1,0 +1,17 @@
+upstream integration_apps {
+      server ${API_DOMAIN_NAME}:${API_PORT};
+}
+
+server {
+  listen ${NGINX_PORT};
+  server_name ${SERVER_NAME};
+
+  root /opt/source/techstore;
+
+  gzip on;
+
+  location / {  
+        proxy_pass http://integration_apps/;
+  }
+
+}

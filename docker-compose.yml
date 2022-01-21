@@ -1,0 +1,106 @@
+version: "3.6"
+
+networks:
+    techstore/in.production: {}
+    techstore/production: {}
+
+secrets:
+    db_user:
+        file: ./docker/secrets/db_user
+    db_password:
+        file: ./docker/secrets/db_password
+    cd_api_key:
+        file: ./docker/secrets/cd_api_key
+    cd_api_secret:
+        file: ./docker/secrets/cd_api_secret
+    cd_cloud_name:
+        file: ./docker/secrets/cd_cloud_name
+
+services:
+    database:
+        image: postgres:latest
+        container_name: techstore_database
+        hostname: ${DATABASE_HOSTNAME}
+        secrets:
+            - db_user
+            - db_password
+        labels:
+            edu.cibertec.techstore.project: "TechStore"
+            edu.cibertec.techstore.version: "1.0"
+            edu.cibertec.techstore.author.name: "Christian Rivera"
+            edu.cibertec.techstore.author.email: "crivera2093@gmail.com"
+            edu.cibertec.techstore.author.url: "https://github.com/pSharpX"
+            edu.cibertec.techstore.author.description: "TechStore Application"
+        networks:
+            - techstore/in.production
+        ports:
+            - "5432:5432"
+        restart: always
+        environment:
+            POSTGRES_USER_FILE: /run/secrets/db_user
+            POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+            POSTGRES_DB: ${DATABASE_NAME}
+        volumes:
+            - ./data/db-scripts/:/docker-entrypoint-initdb.d/
+            - ./data/db/:/var/lib/postgresql/data
+    api:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        image: psharpx/techstore-api:${TAG}
+        container_name: api_techstore
+        hostname: ${API_HOSTNAME}
+        secrets:
+            - db_user
+            - db_password
+            - cd_api_key
+            - cd_api_secret
+            - cd_cloud_name
+        labels:
+            edu.cibertec.techstore.project: "TechStore"
+            edu.cibertec.techstore.version: "1.0"
+            edu.cibertec.techstore.author.name: "Christian Rivera"
+            edu.cibertec.techstore.author.email: "crivera2093@gmail.com"
+            edu.cibertec.techstore.author.url: "https://github.com/pSharpX"
+            edu.cibertec.techstore.author.description: "TechStore Application"
+        networks:
+            - techstore/in.production
+        restart: always
+        environment:
+            DB_TYPE: ${DATABASE_TYPE}
+            DB_HOST: ${DATABASE_HOSTNAME}
+            DB_PORT: ${DATABASE_PORT}
+            DB_USERNAME: "{{DOCKER-SECRET:db_user}}"
+            DB_PASSWORD: "{{DOCKER-SECRET:db_password}}"
+            DB_DATABASE: ${DATABASE_NAME}
+            CD_CLOUD_NAME: "{{DOCKER-SECRET:cd_cloud_name}}"
+            CD_UPLOAD_PRESET: ${CD_UPLOAD_PRESET}
+            CD_API_KEY: "{{DOCKER-SECRET:cd_api_key}}"
+            CD_API_SECRET: "{{DOCKER-SECRET:cd_api_secret}}"
+        depends_on:
+            - database
+    server:
+        image: nginx:1.21.3-alpine
+        container_name: integration_techstore
+        hostname: ${SERVER_HOSTNAME}
+        labels:
+            edu.cibertec.techstore.project: "TechStore"
+            edu.cibertec.techstore.version: "1.0"
+            edu.cibertec.techstore.author.name: "Christian Rivera"
+            edu.cibertec.techstore.author.email: "crivera2093@gmail.com"
+            edu.cibertec.techstore.author.url: "https://github.com/pSharpX"
+            edu.cibertec.techstore.author.description: "TechStore Application"
+        environment:
+            NGINX_PORT: ${NGINX_PORT}
+            API_DOMAIN_NAME: ${API_HOSTNAME}
+            API_PORT: ${API_PORT}
+            SERVER_NAME: ${SERVER_HOSTNAME}
+        networks:
+            - techstore/in.production
+            - techstore/production
+        volumes:
+            - ./docker/config/vhost_server.conf.template:/etc/nginx/templates/default.conf.template
+        ports:
+            - "8080:80"
+        depends_on:
+            - api
