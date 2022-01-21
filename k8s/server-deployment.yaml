@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: techstore-server-deployment
+  labels:
+    app: techstore
+    component: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: techstore
+      component: server    
+  template:
+    metadata:
+      labels:
+        app: techstore
+        component: server
+    spec:
+      containers:
+        - name: techstore-server
+          image: psharpx/techstore-api:latest
+          ports:
+            - containerPort: 3000
+          resources:
+            limits:
+              memory: "4G"
+              cpu: "2"
+            requests:
+              memory: "2G"
+              cpu: "1"
+          env:
+            - name: DB_TYPE
+              value: postgres
+            - name: DB_HOST
+              value: techstore-database-service
+            - name: DB_PORT
+              value: '5432'
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: techstore.secret
+                  key: PG_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: techstore.secret
+                  key: PG_PASSWORD
+            - name: DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: techstore.secret
+                  key: PG_DB
+            - name: CD_CLOUD_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: techstore.secret
+                  key: CD_CLOUD_NAME
+            - name: CD_UPLOAD_PRESET
+              valueFrom:
+                secretKeyRef:
+                  name: techstore.secret
+                  key: CD_UPLOAD_PRESET
+            - name: CD_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: techstore.secret
+                  key: CD_API_KEY
+            - name: CD_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: techstore.secret
+                  key: CD_API_SECRET    
