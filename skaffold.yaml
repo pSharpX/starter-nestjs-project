@@ -1,0 +1,28 @@
+apiVersion: skaffold/v2beta26
+kind: Config
+metadata:
+  name: techstore-development-environment
+deploy:
+  kubectl:
+    manifests:
+      - ./k8s/database-cluster-ip-service.yaml
+      - ./k8s/database-deployment.yaml
+      - ./k8s/server-cluster-ip-service.yaml
+      - ./k8s/server-deployment.yaml
+build:
+  local:
+    push: false
+  artifacts:
+    - image: psharpx/techstore-api
+      context: .
+      docker:
+        dockerfile: Dockerfile.dev
+        buildArgs:
+          NODE_ENV: development
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+    
+      
+  
