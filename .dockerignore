@@ -1,0 +1,11 @@
+node_modules
+upload
+package-lock.json
+docker/secrets
+data/db
+k8s
+migration
+seeders
+build_image.sh
+deploy_stack.sh
+*.yml
