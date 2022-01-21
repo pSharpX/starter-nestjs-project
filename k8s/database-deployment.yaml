@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: techstore-database-deployment
+  labels:
+    app: techstore
+    component: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: techstore
+      component: database
+  template:
+    metadata:
+      labels:
+        app: techstore
+        component: database
+    spec:
+      volumes:
+        - name: database-storage
+          persistentVolumeClaim: 
+            claimName: database-persistent-volume-claim
+      containers:
+        - name: techstore-database
+          image: postgres:14.1-alpine
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: database-storage
+              mountPath: /var/lib/postgresql/data
+              subPath: ./techstore/postgres
+          resources:
+            limits:
+              memory: "1G"
+              cpu: "1"
+            requests:
+              memory: "512M"
+              cpu: "0.5"
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: techstore.secret
+                  key: PG_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: techstore.secret
+                  key: PG_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: techstore.secret
+                  key: PG_DB
+    
